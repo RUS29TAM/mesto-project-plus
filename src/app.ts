@@ -1,20 +1,28 @@
 import express from "express";
 import mongoose from "mongoose";
-import usersRoute from "./routes/users-route";
+import { errors } from "celebrate";
+
+import usersRoute from "./routes/users-routes";
+import authMiddleware from "./middlewares/auth-middleware";
+import NotFoundError from "./errors/not-found-error";
+import unexpectedErrMiddleware from "./middlewares/unexpected-err-middleware";
 
 const app = express();
 const { PORT = 3000 } = process.env;
 
+mongoose.connect("mongodb://127.0.0.1:27017/mestodb");
+
 app.use(express.json());
+app.use(authMiddleware);
 app.use("/users", usersRoute);
 
-// app.get("/", (req, res) => {
-//   res.send(`<h1 style="color: blueviolet; text-align: center">"HI RUS! Server start on PORT ${PORT}"</h1>`);
-// });
+app.use((req, res, next) => {
+  next(new NotFoundError("Не существующая страница"));
+});
 
-app.listen(PORT);
-// app.listen(PORT, () => {
-//   console.log(`Слушаем порт ${PORT}`);
-// });
+app.use(errors());
+app.use(unexpectedErrMiddleware);
 
-mongoose.connect("mongodb://127.0.0.1:27017/mestodb");
+app.listen(PORT, () => {
+  console.log(`Слушаем порт ${PORT}`);
+});
