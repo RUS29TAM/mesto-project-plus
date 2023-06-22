@@ -6,11 +6,13 @@ import usersRoute from "./routes/users-routes";
 import authMiddleware from "./middlewares/auth-middleware";
 import NotFoundError from "./errors/not-found-error";
 import unexpectedErrMiddleware from "./middlewares/unexpected-err-middleware";
+// eslint-disable-next-line import/named
+import { DB_URL } from "./utils/utils";
 
 const app = express();
 const { PORT = 3000 } = process.env;
 
-mongoose.connect("mongodb://127.0.0.1:27017/mestodb");
+mongoose.connect(DB_URL);
 
 app.use(express.json());
 app.use(authMiddleware);
