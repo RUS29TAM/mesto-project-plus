@@ -1,6 +1,6 @@
 /* валидатор карточек */
 import { Joi, Segments, celebrate } from "celebrate";
-import { urlRegExp } from "../utils/utils";
+import { urlRegExp } from "../utils/constants";
 
 export const createCardValidation = celebrate({
   [Segments.BODY]: Joi.object().keys({
