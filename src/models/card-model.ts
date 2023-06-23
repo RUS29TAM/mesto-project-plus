@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { ICard } from "../interfaces/i-card";
+import { urlRegExp } from "../utils/constants";
 
 const cardSchema = new Schema<ICard>({
   name: {
@@ -13,9 +14,9 @@ const cardSchema = new Schema<ICard>({
     required: true,
     validate: {
       validator: (v: any) => {
-        return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(v);
+        return urlRegExp.test(v);
       },
-      message: (props) => `${props.value} не валидный url!`,
+      // message: (props) => `${props.value} не валидный url, проверьте ссылку на изображение!`,
     },
   },
   owner: {
@@ -35,4 +36,4 @@ const cardSchema = new Schema<ICard>({
   }
 });
 
-export default model("card", cardSchema);
+export default model<ICard>("card", cardSchema);
