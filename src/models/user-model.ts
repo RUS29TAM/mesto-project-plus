@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { IUser } from "../interfaces/i-user";
+import { defaultUser, urlRegExp } from "../utils/constants";
 
 const userSchema = new Schema<IUser>({
   name: {
@@ -7,21 +8,26 @@ const userSchema = new Schema<IUser>({
     required: true,
     minlength: 2,
     maxlength: 30,
+    default: defaultUser.name,
   },
   about: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 200,
+    default: defaultUser.about,
   },
   avatar: {
     type: String,
     required: true,
-    validator: (v: any) => {
-      return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(v);
-    },
-    message: (props: { value: any; }) => `${props.value} не валидный url!`,
-  }
+    default: defaultUser.avatar,
+    validate: {
+      validator: (v: any) => {
+        return urlRegExp.test(v);
+      },
+      // message: (props) => `${props.value} не валидный url, проверьте ссылку на аватар!`,
+    }
+  },
 });
 
 export default model<IUser>("user", userSchema);
