@@ -1,6 +1,6 @@
-import { model, Schema } from "mongoose";
-import { ICard } from "../interfaces/i-card";
-import { urlRegExp } from "../utils/constants";
+import { model, Schema } from 'mongoose';
+import { ICard } from '../interfaces/i-card';
+import { urlRegExp } from '../utils/constants';
 
 const cardSchema = new Schema<ICard>({
   name: {
@@ -13,27 +13,25 @@ const cardSchema = new Schema<ICard>({
     type: String,
     required: true,
     validate: {
-      validator: (v: any) => {
-        return urlRegExp.test(v);
-      },
+      validator: (v: any) => urlRegExp.test(v),
       // message: (props) => `${props.value} не валидный url, проверьте ссылку на изображение!`,
     },
   },
   owner: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "user",
+    ref: 'user',
   },
   likes: {
     type: [Schema.Types.ObjectId],
     required: true,
-    ref: "user",
+    ref: 'user',
     default: [],
   },
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
-export default model<ICard>("card", cardSchema);
+export default model<ICard>('card', cardSchema);

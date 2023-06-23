@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-import { Error } from "mongoose";
+import { NextFunction, Request, Response } from 'express';
+import { Error } from 'mongoose';
 
-import userModel from "../models/user-model";
-import BadRequestError from "../errors/bad-request-error";
-import NotFoundError from "../errors/not-found-error";
-import { IHardcoreRequest } from "../interfaces/i-hardcore-request";
-import { OK } from "../utils/constants";
+import userModel from '../models/user-model';
+import BadRequestError from '../errors/bad-request-error';
+import NotFoundError from '../errors/not-found-error';
+import { IHardcoreReq } from '../interfaces/i-hardcore-req';
+import { OK } from '../utils/constants';
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -22,7 +22,7 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
   try {
     const user = await userModel.findById(userId);
     if (!user) {
-      throw new NotFoundError("Пользователь не найден");
+      throw new NotFoundError('Пользователь не найден');
     }
     res.send(user);
   } catch (err) {
@@ -49,16 +49,16 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-const findUser = async (req: IHardcoreRequest, res: Response, next: NextFunction) => {
+const findUser = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   const userId = req.user?._id ?? req.params.userId;
   const user = await userModel.findById(userId);
   if (!user) {
-    return next(new NotFoundError("Пользователь не найден"));
+    return next(new NotFoundError('Пользователь не найден'));
   }
   return res.json({ data: user });
 };
 
-export const getCurrentUser = async (req: IHardcoreRequest, res: Response, next: NextFunction) => {
+export const getCurrentUser = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   findUser(req, res, next)
     .catch((err) => {
       if (err instanceof Error.CastError) {
@@ -68,8 +68,7 @@ export const getCurrentUser = async (req: IHardcoreRequest, res: Response, next:
     });
 };
 
-// eslint-disable-next-line max-len
-export const updateCurrentUserData = async (req: IHardcoreRequest, res: Response, next: NextFunction) => {
+export const updateUserData = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   const { name, about } = req.body;
   const userId = req.user?._id;
 
@@ -77,10 +76,10 @@ export const updateCurrentUserData = async (req: IHardcoreRequest, res: Response
     const user = await userModel.findByIdAndUpdate(
       userId,
       { name, about },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     if (!user) {
-      throw new NotFoundError("Пользователь не найден");
+      throw new NotFoundError('Пользователь не найден');
     }
     res.send(user);
   } catch (err) {
@@ -92,16 +91,18 @@ export const updateCurrentUserData = async (req: IHardcoreRequest, res: Response
   }
 };
 
-// eslint-disable-next-line max-len
-export const updateCurrentUserAvatar = async (req: IHardcoreRequest, res: Response, next: NextFunction) => {
+export const updateUserAvatar = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   const { avatar } = req.body;
   const userId = req.user?._id;
 
   try {
-    // eslint-disable-next-line max-len
-    const user = await userModel.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true });
+    const user = await userModel.findByIdAndUpdate(
+      userId,
+      { avatar },
+      { new: true, runValidators: true },
+    );
     if (!user) {
-      throw new NotFoundError("Пользователь не найден");
+      throw new NotFoundError('Пользователь не найден');
     }
     res.send(user);
   } catch (err) {

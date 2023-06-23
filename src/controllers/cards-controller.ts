@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from "express";
-import { ObjectId, Error } from "mongoose";
-import { IHardcoreRequest } from "../interfaces/i-hardcore-request";
-import NotFoundError from "../errors/not-found-error";
-import BadRequestError from "../errors/bad-request-error";
-import cardModel from "../models/card-model";
-import { OK } from "../utils/constants";
+import { Request, Response, NextFunction } from 'express';
+import { ObjectId, Error } from 'mongoose';
+import { IHardcoreReq } from '../interfaces/i-hardcore-req';
+import NotFoundError from '../errors/not-found-error';
+import BadRequestError from '../errors/bad-request-error';
+import cardModel from '../models/card-model';
+import { OK } from '../utils/constants';
 
 export const getCards = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -15,7 +15,7 @@ export const getCards = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const createCard = async (req: IHardcoreRequest, res: Response, next: NextFunction) => {
+export const createCard = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   const { name, link } = req.body;
   const owner = req.user?._id;
 
@@ -35,7 +35,7 @@ export const deleteCardById = async (req: Request, res: Response, next: NextFunc
   const { cardId } = req.params;
 
   try {
-    const card = await cardModel.findByIdAndDelete(cardId).orFail(() => new NotFoundError("Карточка не найдена"));
+    const card = await cardModel.findByIdAndDelete(cardId).orFail(() => new NotFoundError('Карточка не найдена'));
     res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
@@ -46,7 +46,7 @@ export const deleteCardById = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const likeCardById = async (req: IHardcoreRequest, res: Response, next: NextFunction) => {
+export const likeCardById = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   const { cardId } = req.params;
   try {
     const card = await cardModel
@@ -55,7 +55,7 @@ export const likeCardById = async (req: IHardcoreRequest, res: Response, next: N
         { $addToSet: { likes: req.user?._id } },
         { new: true },
       )
-      .orFail(() => new NotFoundError("Карточка не найдена"));
+      .orFail(() => new NotFoundError('Карточка не найдена'));
     res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
@@ -66,7 +66,7 @@ export const likeCardById = async (req: IHardcoreRequest, res: Response, next: N
   }
 };
 
-export const dislikeCardById = async (req: IHardcoreRequest, res: Response, next: NextFunction) => {
+export const dislikeCardById = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   const userId = req.user?._id;
   const { cardId } = req.params;
 
@@ -77,7 +77,7 @@ export const dislikeCardById = async (req: IHardcoreRequest, res: Response, next
         { $pull: { likes: userId as unknown as ObjectId } },
         { new: true },
       )
-      .orFail(() => new NotFoundError("Карточка не найдена"));
+      .orFail(() => new NotFoundError('Карточка не найдена'));
     res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {

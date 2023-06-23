@@ -1,4 +1,4 @@
-import { BAD_REQUEST } from "../utils/constants";
+import { BAD_REQUEST } from '../utils/constants';
 
 class BadRequestError extends Error {
   public respStatusCode: number;
