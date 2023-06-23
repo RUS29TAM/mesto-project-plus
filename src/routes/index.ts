@@ -5,7 +5,7 @@ import NotFoundError from "../errors/not-found-error";
 
 const router = Router();
 
-router.use("/user", usersRoutes);
+router.use("/users", usersRoutes);
 router.use("/cards", cardsRoutes);
 
 router.use((req, res, next) => {
