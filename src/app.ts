@@ -8,7 +8,7 @@ import authMiddleware from "./middlewares/auth-middleware";
 import NotFoundError from "./errors/not-found-error";
 import unexpectedErrMiddleware from "./middlewares/unexpected-err-middleware";
 // eslint-disable-next-line import/named
-import { DB_URL } from "./utils/utils";
+import { DB_URL } from "./utils/constants";
 
 const app = express();
 const { PORT = 3000 } = process.env;
