@@ -1,6 +1,6 @@
 /* валидатор пользователей */
 import { Joi, Segments, celebrate } from "celebrate";
-import { urlRegExp } from "../utils/utils";
+import { urlRegExp } from "../utils/constants";
 
 export const getUserByIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
