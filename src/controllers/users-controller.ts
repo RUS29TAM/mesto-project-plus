@@ -5,6 +5,7 @@ import userModel from "../models/user-model";
 import BadRequestError from "../errors/bad-request-error";
 import NotFoundError from "../errors/not-found-error";
 import { IHardcoreRequest } from "../interfaces/i-hardcore-request";
+import { OK } from "../utils/constants";
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -38,7 +39,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
   try {
     const user = await userModel.create({ name, about, avatar });
-    res.status(200).send({ data: user });
+    res.status(OK).send({ data: user });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError(err.message));

@@ -1,9 +1,11 @@
+import { BAD_REQUEST } from "../utils/constants";
+
 class BadRequestError extends Error {
   public respStatusCode: number;
 
   constructor(message: string) {
     super(message);
-    this.respStatusCode = 400;
+    this.respStatusCode = BAD_REQUEST;
   }
 }
 

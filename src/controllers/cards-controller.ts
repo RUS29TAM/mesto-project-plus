@@ -4,11 +4,12 @@ import { IHardcoreRequest } from "../interfaces/i-hardcore-request";
 import NotFoundError from "../errors/not-found-error";
 import BadRequestError from "../errors/bad-request-error";
 import cardModel from "../models/card-model";
+import { OK } from "../utils/constants";
 
 export const getCards = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cards = await cardModel.find({});
-    res.status(200).send(cards);
+    res.status(OK).send(cards);
   } catch (err) {
     next(err);
   }
@@ -20,7 +21,7 @@ export const createCard = async (req: IHardcoreRequest, res: Response, next: Nex
 
   try {
     const card = await cardModel.create({ name, link, owner });
-    res.status(200).send({ data: card });
+    res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError(err.message));
@@ -35,7 +36,7 @@ export const deleteCardById = async (req: Request, res: Response, next: NextFunc
 
   try {
     const card = await cardModel.findByIdAndDelete(cardId).orFail(() => new NotFoundError("Карточка не найдена"));
-    res.status(200).send({ data: card });
+    res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
       next(new BadRequestError(err.message));
@@ -55,7 +56,7 @@ export const likeCardById = async (req: IHardcoreRequest, res: Response, next: N
         { new: true },
       )
       .orFail(() => new NotFoundError("Карточка не найдена"));
-    res.status(200).send({ data: card });
+    res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
       next(new BadRequestError(err.message));
@@ -77,7 +78,7 @@ export const dislikeCardById = async (req: IHardcoreRequest, res: Response, next
         { new: true },
       )
       .orFail(() => new NotFoundError("Карточка не найдена"));
-    res.status(200).send({ data: card });
+    res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
       next(new BadRequestError(err.message));
