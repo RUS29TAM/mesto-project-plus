@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { errors } from "celebrate";
 
 import usersRoute from "./routes/users-routes";
+import cardsRoutes from "./routes/cards-routes";
 import authMiddleware from "./middlewares/auth-middleware";
 import NotFoundError from "./errors/not-found-error";
 import unexpectedErrMiddleware from "./middlewares/unexpected-err-middleware";
@@ -17,6 +18,7 @@ mongoose.connect(DB_URL);
 app.use(express.json());
 app.use(authMiddleware);
 app.use("/users", usersRoute);
+app.use("/cards", cardsRoutes);
 
 app.use((req, res, next) => {
   next(new NotFoundError("Не существующая страница"));
