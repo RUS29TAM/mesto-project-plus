@@ -3,7 +3,7 @@ import { IHardcoreReq } from '../interfaces/i-hardcore-req';
 
 export default (req: IHardcoreReq, res: Response, next: NextFunction) => {
   req.user = {
-    _id: '648c5061b49a58e19ee012f3',
+    _id: '6499865fe67287531a36c4c6',
   };
   next();
 };
