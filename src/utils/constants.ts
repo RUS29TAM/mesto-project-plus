@@ -7,6 +7,7 @@ export const defaultUser = {
 };
 
 export const urlRegExp: RegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
+export const emailRegExp: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const DB_URL = 'mongodb://127.0.0.1:27017/mestodb';
 
 export const INTERNAL_SERVER_ERROR = http2.constants.HTTP_STATUS_INTERNAL_SERVER_ERROR;
