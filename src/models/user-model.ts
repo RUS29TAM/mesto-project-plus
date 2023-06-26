@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { IUser } from '../interfaces/i-user';
-import { defaultUser, urlRegExp } from '../utils/constants';
+import { defaultUser, emailRegExp, urlRegExp } from '../utils/constants';
 
 const userSchema = new Schema<IUser>({
   name: {
@@ -22,6 +22,19 @@ const userSchema = new Schema<IUser>({
       validator: (v: any) => urlRegExp.test(v),
       // message: (props) => `${props.value} не валидный url, проверьте ссылку на аватар!`,
     },
+  },
+  email: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v: any) => emailRegExp.test(v),
+    },
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    select: false,
   },
 });
 
