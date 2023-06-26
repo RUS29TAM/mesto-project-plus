@@ -72,3 +72,17 @@ export const updateCurrentUserAvatarValidation = celebrate({
     }),
   }),
 });
+
+export const loginValidation = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    email: Joi.string().pattern(emailRegExp).required().messages({
+      'string.empty': "Поле 'email' не должно быть пустым",
+      'string.pattern.base': "Поле 'email' должно быть валидно адресу электронной почты",
+    }),
+    password: Joi.string().min(8).required()
+      .messages({
+        'string.empty': "Поле 'password' не должно быть пустым",
+        'string.min': "Поле 'password' должно содержать не менее {#limit} символов",
+      }),
+  }),
+});
