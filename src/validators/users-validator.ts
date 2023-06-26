@@ -1,6 +1,6 @@
 /* валидатор пользователей */
 import { Joi, Segments, celebrate } from 'celebrate';
-import { urlRegExp } from '../utils/constants';
+import { emailRegExp, urlRegExp } from '../utils/constants';
 
 export const getUserByIdValidation = celebrate({
   [Segments.PARAMS]: Joi.object().keys({
@@ -52,6 +52,15 @@ export const createUserValidation = celebrate({
       'string.empty': "Поле 'Сслыка на аватар' не должно быть пустым",
       'string.pattern.base': "Поле 'Сслыка на аватар' должно быть валидным URL-адресом",
     }),
+    email: Joi.string().pattern(emailRegExp).required().messages({
+      'string.empty': "Поле 'email' не должно быть пустым",
+      'string.pattern.base': "Поле 'email' должно быть валидно адресу электронной почты",
+    }),
+    password: Joi.string().min(8).required()
+      .messages({
+        'string.empty': "Поле 'password' не должно быть пустым",
+        'string.min': "Поле 'password' должно содержать не менее {#limit} символов",
+      }),
   }),
 });
 
