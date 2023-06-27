@@ -14,3 +14,7 @@ export const INTERNAL_SERVER_ERROR = http2.constants.HTTP_STATUS_INTERNAL_SERVER
 export const NOT_FOUND_ERROR = http2.constants.HTTP_STATUS_NOT_FOUND;
 export const BAD_REQUEST = http2.constants.HTTP_STATUS_BAD_REQUEST;
 export const OK = http2.constants.HTTP_STATUS_OK;
+export const NOT_AUTH_ERROR = http2.constants.HTTP_STATUS_UNAUTHORIZED;
+export const CONFLICT_ERROR = http2.constants.HTTP_STATUS_CONFLICT;
+export const CREATED = http2.constants.HTTP_STATUS_CREATED;
+export const DUPLICATE_KEY_ERROR = 11000;
