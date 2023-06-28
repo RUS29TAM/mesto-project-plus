@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ObjectId, Error } from 'mongoose';
-import { IHardcoreReq } from '../interfaces/i-hardcore-req';
+import { IUserRequest } from '../interfaces/i-user-request';
 import NotFoundError from '../errors/not-found-error';
 import BadRequestError from '../errors/bad-request-error';
 import cardModel from '../models/card-model';
@@ -15,7 +15,7 @@ export const getCards = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const createCard = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
+export const createCard = async (req: IUserRequest, res: Response, next: NextFunction) => {
   const { name, link } = req.body;
   const owner = req.user?._id;
 
@@ -46,7 +46,7 @@ export const deleteCardById = async (req: Request, res: Response, next: NextFunc
   }
 };
 
-export const likeCardById = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
+export const likeCardById = async (req: IUserRequest, res: Response, next: NextFunction) => {
   const { cardId } = req.params;
   try {
     const card = await cardModel
@@ -66,7 +66,7 @@ export const likeCardById = async (req: IHardcoreReq, res: Response, next: NextF
   }
 };
 
-export const dislikeCardById = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
+export const dislikeCardById = async (req: IUserRequest, res: Response, next: NextFunction) => {
   const userId = req.user?._id;
   const { cardId } = req.params;
 
