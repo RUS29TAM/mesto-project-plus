@@ -9,9 +9,9 @@ const unexpectedErrMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const { respStatusCode = INTERNAL_SERVER_ERROR, message } = err;
-  const errorMessage = respStatusCode === INTERNAL_SERVER_ERROR ? 'На сервере произошла ошибка' : message;
-  res.status(respStatusCode).send({ message: errorMessage });
+  const { statusCode = INTERNAL_SERVER_ERROR, message } = err;
+  const errorMessage = statusCode === INTERNAL_SERVER_ERROR ? 'На сервере произошла ошибка' : message;
+  res.status(statusCode).send({ message: errorMessage });
   next(err);
 };
 
