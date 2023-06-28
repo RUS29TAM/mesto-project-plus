@@ -18,3 +18,4 @@ export const NOT_AUTH_ERROR = http2.constants.HTTP_STATUS_UNAUTHORIZED;
 export const CONFLICT_ERROR = http2.constants.HTTP_STATUS_CONFLICT;
 export const CREATED = http2.constants.HTTP_STATUS_CREATED;
 export const DUPLICATE_KEY_ERROR = 11000;
+export const JWT_SECRET_KEY = 'some-secret-key';
