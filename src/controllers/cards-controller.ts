@@ -24,7 +24,7 @@ export const createCard = async (req: IUserRequest, res: Response, next: NextFun
     res.status(OK).send({ data: card });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
-      next(new BadRequestError(err.message));
+      next(new BadRequestError('требуется путь `владелец`'));
     } else {
       next(err);
     }
