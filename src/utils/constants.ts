@@ -1,9 +1,9 @@
 import * as http2 from 'http2';
 
 export const defaultUser = {
-  name: 'defaultName',
-  about: 'defaultAbout',
-  avatar: 'https://moysite.ru/wp-content/uploads/2023/02/jandeks.praktikum-logo.jpg',
+  name: 'Жак-Ив Кусто',
+  about: 'Исследователь',
+  avatar: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
 };
 
 export const urlRegExp: RegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
