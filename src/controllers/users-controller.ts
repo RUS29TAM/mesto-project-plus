@@ -71,24 +71,6 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     }
   }
 };
-// export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-//   const {
-//     name, about, avatar, email, password,
-//   } = req.body;
-
-//   try {
-//     const user = await userModel.create({
-//       name, about, avatar, email, password,
-//     });
-//     res.status(OK).send({ data: user });
-//   } catch (err) {
-//     if (err instanceof Error.ValidationError) {
-//       next(new BadRequestError(err.message));
-//     } else {
-//       next(err);
-//     }
-//   }
-// };
 
 const findUser = async (req: IHardcoreReq, res: Response, next: NextFunction) => {
   const userId = req.user?._id ?? req.params.userId;
