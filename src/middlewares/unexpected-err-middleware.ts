@@ -1,11 +1,11 @@
 import { Response, NextFunction } from 'express';
-import { IHardcoreReq } from '../interfaces/i-hardcore-req';
+import { IUserRequest } from '../interfaces/i-user-request';
 import { TError } from '../types/t-error';
 import { INTERNAL_SERVER_ERROR } from '../utils/constants';
 
 const unexpectedErrMiddleware = (
   err: TError,
-  req: IHardcoreReq,
+  req: IUserRequest,
   res: Response,
   next: NextFunction,
 ) => {
