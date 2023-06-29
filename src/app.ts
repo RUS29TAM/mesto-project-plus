@@ -17,6 +17,7 @@ const createServer = async () => {
   try {
     await mongoose.connect(DB_URL);
   } catch (err) {
+    // console.error('Сбой подключения к базе данных:', err);
     process.exit(1);
   }
 
