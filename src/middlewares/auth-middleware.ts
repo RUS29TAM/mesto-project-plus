@@ -1,9 +1,30 @@
 import { Response, NextFunction } from 'express';
-import { IHardcoreReq } from '../interfaces/i-hardcore-req';
+import jwt from 'jsonwebtoken';
+import { IAuthorization, IPayload } from '../interfaces/i-authorization';
+import NotAuthError from '../errors/not-auth-error';
+import { JWT_SECRET_KEY } from '../utils/constants';
 
-export default (req: IHardcoreReq, res: Response, next: NextFunction) => {
-  req.user = {
-    _id: '648c5061b49a58e19ee012f3',
-  };
-  next();
+export default (req: IAuthorization, res: Response, next: NextFunction) => {
+  const { authorization } = req.headers;
+
+  if (!authorization || !authorization.startsWith('Bearer')) {
+    return next(new NotAuthError('Требуется авторизация'));
+  }
+
+  const token = authorization.replace('Bearer ', '');
+
+  if (!token) {
+    return next(new NotAuthError('Токен не найден'));
+  }
+
+  let payload: IPayload;
+
+  try {
+    payload = jwt.verify(token, JWT_SECRET_KEY) as IPayload;
+  } catch (err) {
+    return next(new NotAuthError('Не соответствующий токен'));
+  }
+
+  req.user = payload;
+  return next();
 };

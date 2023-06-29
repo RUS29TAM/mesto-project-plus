@@ -1,4 +1,4 @@
 export type TError = {
-  respStatusCode: number;
+  statusCode: number;
   message: string;
 }
