@@ -4,12 +4,12 @@ import { IUserRequest } from '../interfaces/i-user-request';
 import NotFoundError from '../errors/not-found-error';
 import BadRequestError from '../errors/bad-request-error';
 import cardModel from '../models/card-model';
-import { OK } from '../utils/constants';
+import ForbiddenError from '../errors/forbidden-error';
 
 export const getCards = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const cards = await cardModel.find({});
-    res.status(OK).send(cards);
+    res.send(cards);
   } catch (err) {
     next(err);
   }
@@ -21,7 +21,7 @@ export const createCard = async (req: IUserRequest, res: Response, next: NextFun
 
   try {
     const card = await cardModel.create({ name, link, owner });
-    res.status(OK).send({ data: card });
+    res.send({ data: card });
   } catch (err) {
     if (err instanceof Error.ValidationError) {
       next(new BadRequestError('требуется путь `владелец`'));
@@ -31,12 +31,14 @@ export const createCard = async (req: IUserRequest, res: Response, next: NextFun
   }
 };
 
-export const deleteCardById = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteCardById = async (req: IUserRequest, res: Response, next: NextFunction) => {
   const { cardId } = req.params;
 
   try {
-    const card = await cardModel.findByIdAndDelete(cardId).orFail(() => new NotFoundError('Карточка не найдена'));
-    res.status(OK).send({ data: card });
+    const card = await cardModel.findById(cardId).orFail(() => new NotFoundError('Карточка не найдена'));
+    if (card.owner.toString() !== req.user?._id) throw new ForbiddenError('Нельзя удалить карточку, которая создана не вами');
+    await card.deleteOne();
+    res.send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
       next(new BadRequestError(err.message));
@@ -56,7 +58,7 @@ export const likeCardById = async (req: IUserRequest, res: Response, next: NextF
         { new: true },
       )
       .orFail(() => new NotFoundError('Карточка не найдена'));
-    res.status(OK).send({ data: card });
+    res.send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
       next(new BadRequestError(err.message));
@@ -78,7 +80,7 @@ export const dislikeCardById = async (req: IUserRequest, res: Response, next: Ne
         { new: true },
       )
       .orFail(() => new NotFoundError('Карточка не найдена'));
-    res.status(OK).send({ data: card });
+    res.send({ data: card });
   } catch (err) {
     if (err instanceof Error.CastError) {
       next(new BadRequestError(err.message));
